@@ -4,6 +4,7 @@ import './App.css';
 import { Switch, Route, NavLink } from "react-router-dom";
 import Items from 'containers/items/index'
 import Customers from 'containers/customers/index'
+import Orgs from 'containers/orgs'
 import Sales from 'containers/selas'
 
 import { Layout, Menu, Breadcrumb } from 'antd';
@@ -35,6 +36,7 @@ class App extends Component {
           <Switch>
             <Route path="/items" component={Items} />
             <Route path="/customers" component={Customers} />
+            <Route path="/orgs" component={Orgs} />
             <Route path="/selas" component={Sales} />
           </Switch>
           </Content>

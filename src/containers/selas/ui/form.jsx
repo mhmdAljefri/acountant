@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, FormItem, Input, InputNumber, Icon, Button, Select } from 'antd';
+import { Form, FormItem, Input, InputNumber, Icon, Button, Select, Row, Col } from 'antd';
 import * as demo from 'demo/data'
 
 const Option = Select.Option
@@ -11,6 +11,11 @@ export default class SaleForm extends React.Component {
     count: {},
     times: {},
     items: [0],
+    payed: 0,
+    discount: 0,
+    bill_type: 'نقد',
+    org: "",
+    client: '',
     full_total: 0
   }
 
@@ -44,51 +49,108 @@ export default class SaleForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
-        <span>نوع الفاتورة</span>
-        <Select
-          showSearch
-          style={{ width: 200, margin: 10 }}
-          placeholder="Select a item"
-          optionFilterProp="children"
-          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-          >
-        {['أجل', 'نقد'].map(item => 
-          <Option value={item}>{item}</Option>
-        )}
-        </Select>
-        </div>
+      <Row type="flex" justify="space-between" align="top">
 
-        <div>
-        <span>أسم العميل</span>
-        <Select
-          showSearch
-          style={{ width: 200, margin: 10 }}
-          placeholder="Select a item"
-          optionFilterProp="children"
-          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-          >
-        {demo.customers.map(item => 
-          <Option value={item.price}>{item.name}</Option>
-        )}
-        </Select>
-        </div>
+        <Col span="12" className="col">
+          <div>
+            <span>نوع الفاتورة</span>
+            <Select
+              showSearch
+              defaultValue="نقد"
+              style={{ width: 200, margin: 10 }}
+              placeholder="Select a item"
+              optionFilterProp="children"
+              onChange={bill_type => this.setState({ bill_type })}
+              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+            {['أجل', 'نقد'].map(item => 
+              <Option value={item}>{item}</Option>
+            )}
+            </Select>
+          </div>
 
-        {this.state.items.map((item) =>
-          <SalesForm _this={this} key={item} item={item} />
-        )}
-        <Button onClick={this.addItem}>أضافة سلعة</Button>
-        <p>
-          ألاجمالي الكلي:
-          {this.state.full_total}
-        </p>
-        <div>
-          <Button>طباعة
-            <Icon title='eye' name="print" />
-          </Button>
-        </div>
-      </div>
+          {this.state.bill_type === "أجل" &&
+          <div>
+            <span>أسم الداعم</span>
+            <Select
+              showSearch
+              style={{ width: 200, margin: 10 }}
+              placeholder="Select a item"
+              onChange={org => this.setState({ org })}
+              optionFilterProp="children"
+              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+            {demo.orgs.map(item => 
+              <Option value={item.name}>{item.name}</Option>
+            )}
+            </Select>
+          </div>}
+
+          <div>
+          <span>أسم العميل</span>
+            <Select
+              showSearch
+              style={{ width: 200, margin: 10 }}
+              placeholder="Select a item"
+              onChange={client => this.setState({ client })}
+              optionFilterProp="children"
+              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+            {demo.customers.map(item => 
+              <Option value={item.name}>{item.name}</Option>
+            )}
+            </Select>
+          </div>
+
+          {this.state.items.map((item) =>
+            <SalesForm _this={this} key={item} item={item} />
+          )}
+          <Button onClick={this.addItem}>أضافة سلعة</Button>
+          <p>
+            ألاجمالي الكلي:
+            {this.state.full_total}
+          </p>
+          <div>
+            <span style={{padding: '0 5px'}}>الخصم:</span>
+            <InputNumber onChange={discount => this.setState({ discount })} />
+          </div>
+          <div>
+            <span style={{padding: '0 5px'}}>المدفوع:</span>
+            <InputNumber onChange={payed => this.setState({ payed })} />
+          </div>
+          <p>
+            ألاجمالي الصافي:
+            {this.state.full_total - this.state.discount - this.state.payed}
+          </p>
+          <div>
+            <Button>طباعة
+              <Icon title='eye' name="print" />
+            </Button>
+          </div>
+        </Col>
+        <Col span="12" className="col">
+          <Row type="flex" justify="center" align="top" className="header">
+            <Col span="6">
+              6
+            </Col>
+            <Col span="12">
+              {this.state.bill_type}
+              {this.state.bill_type === "أجل" &&
+              <p>
+                الداعم:
+                {this.state.org}
+              </p>}
+              <p>
+                المستفيد:
+                {this.state.client}
+              </p>
+            </Col>
+            <Col span="6">
+              6
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     )
   }
 }

@@ -11,24 +11,24 @@ export default () => {
 }
 
 const columns = [{
-  title: 'Name',
+  title: 'الاسم',
   dataIndex: 'name',
   key: 'name',
   render: text => <a href="javascript:;">{text}</a>,
 }, {
-  title: 'Age',
+  title: 'العمر',
   dataIndex: 'price',
   key: 'price',
 }, {
-  title: 'Address',
+  title: 'العنوان',
   dataIndex: 'type',
   key: 'type',
 }, {
-  title: 'Action',
+  title: 'العمليات',
   key: 'action',
   render: (text, record) => (
     <span>
-      <a href="javascript:;">Delete</a>
+      <a href="javascript:;">حذف</a>
     </span>
   ),
 }];

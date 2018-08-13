@@ -5,8 +5,8 @@ import { Table } from "antd";
 export default () => {
   return (
     <div>
-      <h4>العملاء</h4>
-      <Table dataSource={demo.customers} columns={columns} />
+      ir
+      <Table dataSource={demo.orgs} columns={columns} />
     </div>
   )
 }
@@ -17,13 +17,9 @@ const columns = [{
   key: 'name',
   render: text => <a href="javascript:;">{text}</a>,
 }, {
-  title: 'البريد الاكتروني',
-  dataIndex: 'email',
-  key: 'email',
-}, {
-  title: 'الجوال',
-  dataIndex: 'mobile',
-  key: 'mobile',
+  title: 'العنوان',
+  dataIndex: 'type',
+  key: 'type',
 }, {
   title: 'العمليات',
   key: 'action',
